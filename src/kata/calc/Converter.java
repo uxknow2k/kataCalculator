@@ -8,22 +8,21 @@ import java.util.TreeMap;
  * @author Byzov A.A.
  */
 public class Converter {
-    Map<Character, Integer> romanMap = new HashMap<>();
+    Map<Character, Integer> romanNumMap = new HashMap<>();
 
     {
-        romanMap.put('I', 1);
-        romanMap.put('V', 5);
-        romanMap.put('X', 10);
-        romanMap.put('L', 50);
-        romanMap.put('C', 100);
-        romanMap.put('D', 500);
-        romanMap.put('M', 1000);
+        romanNumMap.put('I', 1);
+        romanNumMap.put('V', 5);
+        romanNumMap.put('X', 10);
+        romanNumMap.put('L', 50);
+        romanNumMap.put('C', 100);
+        romanNumMap.put('D', 500);
+        romanNumMap.put('M', 1000);
     }
 
     TreeMap<Integer, String> arabNumMap = new TreeMap<>();
 
     {
-
         arabNumMap.put(1000, "M");
         arabNumMap.put(900, "CM");
         arabNumMap.put(500, "D");
@@ -41,12 +40,12 @@ public class Converter {
 
     public int romanConverter(String romeNumber) {
 
-        int result = romanMap.get(romeNumber.charAt(romeNumber.length() - 1));
+        int result = romanNumMap.get(romeNumber.charAt(romeNumber.length() - 1));
         for (int i = romeNumber.length() - 2; i >= 0; i--) {
-            if (romanMap.get(romeNumber.charAt(i)) < romanMap.get(romeNumber.charAt(i + 1))) {
-                result -= romanMap.get(romeNumber.charAt(i));
+            if (romanNumMap.get(romeNumber.charAt(i)) < romanNumMap.get(romeNumber.charAt(i + 1))) {
+                result -= romanNumMap.get(romeNumber.charAt(i));
             } else {
-                result += romanMap.get(romeNumber.charAt(i));
+                result += romanNumMap.get(romeNumber.charAt(i));
             }
         }
         return result;
@@ -65,6 +64,6 @@ public class Converter {
 
 
     public boolean isRoman(String number) {
-        return romanMap.containsKey(number.charAt(0));
+        return romanNumMap.containsKey(number.charAt(0));
     }
 }

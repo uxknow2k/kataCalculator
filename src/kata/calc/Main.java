@@ -1,7 +1,5 @@
 package kata.calc;
 
-import kata.calc.Exception.DifferentNumberSystemsException;
-
 import java.util.Scanner;
 
 /**
@@ -26,6 +24,7 @@ public class Main {
     }
 
     public static String calc(String input) throws DifferentNumberSystemsException {
+
         int calcResult = 0;
         int actionIndex = -1;
         int a;
@@ -90,5 +89,11 @@ public class Main {
             case "/" -> calcResult = a / b;
         }
         return calcResult;
+    }
+
+    static class DifferentNumberSystemsException extends Exception {
+        public DifferentNumberSystemsException(String description) {
+            super(description);
+        }
     }
 }
