@@ -37,19 +37,27 @@ public class Main {
                 a = Integer.parseInt(data[0]);
                 b = Integer.parseInt(data[1]);
             }
+            if (a > 10 || a < 1 && b < 1 || b > 10) {
+                throw new DifferentNumberSystemsException("Числа не удовлетворяют условию - от 1 до 10!");
+            }
 /*
 Арифметические действия
  */
-            int result = switch (arithmeticSigns[actionIndex]) {
-                case "+" -> a + b;
-                case "-" -> a - b;
-                case "*" -> a * b;
-                case "/" -> a / b;
-                default -> 0;
-            };
+            int result = 0;
+            switch (arithmeticSigns[actionIndex]) {
+                case "+" -> result = a + b;
+                case "-" -> result = a - b;
+                case "*" -> result = a * b;
+                case "/" -> result = a / b;
+            }
 
-            System.out.println("Результат: " + result);
+            if (isRoman) {
+                System.out.println("Результат: " + converter.arabicConverter(result));
+            } else {
+                System.out.println("Результат: " + result);
+            }
         }
     }
 }
+
 
