@@ -5,6 +5,6 @@ package kata.calc.Exception;
  */
 public class DifferentNumberSystemsException extends Exception {
     public DifferentNumberSystemsException(String description) {
-         super(description);
+        super(description);
     }
 }

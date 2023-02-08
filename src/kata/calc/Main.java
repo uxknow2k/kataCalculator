@@ -33,6 +33,9 @@ public class Main {
             if (isRoman) {
                 a = converter.romanConverter(data[0]);
                 b = converter.romanConverter(data[1]);
+                if (a > 10 || a < 1 && b < 1 || b > 10) {
+                    throw new DifferentNumberSystemsException("Числа не удовлетворяют условию - от I до X!");
+                }
             } else {
                 a = Integer.parseInt(data[0]);
                 b = Integer.parseInt(data[1]);
@@ -51,11 +54,13 @@ public class Main {
                 case "/" -> result = a / b;
             }
 
-            if (isRoman) {
+            if (isRoman && result > 0) {
                 System.out.println("Результат: " + converter.arabicConverter(result));
             } else {
-                System.out.println("Результат: " + result);
+                throw new DifferentNumberSystemsException("Римские числа не могут быть отрицательными!");
             }
+        } else {
+            throw new DifferentNumberSystemsException("Используются одновременно разные системы счисления!");
         }
     }
 }
