@@ -54,24 +54,25 @@ public class Main {
 /*
 Арифметические действия
  */
-            //TODO: Исправить результат
             if (isRoman) {
-                arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+                int calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
                 if (calcResult > 0) {
                     System.out.println("Результат: " + converter.arabicConverter(calcResult));
                 } else {
                     throw new DifferentNumberSystemsException("В римской системе нет отрицательных чисел!");
                 }
             }
-            arithmeticExpression(arithmeticSigns, actionIndex, a, b);
-            System.out.println("Результат: " + calcResult);
+            if (!isRoman) {
+                int calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+                System.out.println("Результат: " + calcResult);
+            }
 
         } else {
             throw new DifferentNumberSystemsException("Используются одновременно разные системы счисления!");
         }
     }
 
-    private static void arithmeticExpression(String[] arithmeticSigns, int actionIndex, int a, int b) {
+    private static int arithmeticExpression(String[] arithmeticSigns, int actionIndex, int a, int b) {
         int calcResult = 0;
         switch (arithmeticSigns[actionIndex]) {
             case "+" -> calcResult = a + b;
@@ -79,6 +80,7 @@ public class Main {
             case "*" -> calcResult = a * b;
             case "/" -> calcResult = a / b;
         }
+        return calcResult;
     }
 }
 
