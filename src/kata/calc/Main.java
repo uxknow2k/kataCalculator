@@ -8,22 +8,35 @@ import java.util.Scanner;
  * @author Byzov A.A.
  */
 public class Main {
-    public static void main(String[] args) throws DifferentNumberSystemsException {
-        Converter converter = new Converter();
-        String[] arithmeticSigns = {"+", "-", "/", "*"};
-        String[] regexArithmeticSigns = {"\\+", "-", "/", "\\*"};
+    static Converter converter = new Converter();
+    static String[] arithmeticSigns = {"+", "-", "/", "*"};
+    static String[] regexArithmeticSigns = {"\\+", "-", "/", "\\*"};
 
-        Scanner calc = new Scanner(System.in);
+    public static void main(String[] args) {
+
+        Scanner console = new Scanner(System.in);
         System.out.println("--------------------------------");
-        System.out.println("Введите выражение форматом \"a + b\" (принимаются только римские (I, II, III...X) и арабские (1,2,3...10).");
+        System.out.println("Введите выражение форматом \"a+b\" (принимаются только римские (I, II, III...X) и арабские (1,2,3...10).");
         System.out.println("цифры от 1 до 10 (от I до X), а также операторы \"+\", \"-\", \"*\", \"/\".");
         System.out.println("Нельзя использовать разные типы чисел в одном выражении.");
         System.out.println("--------------------------------");
         System.out.println("Введите числовое выражение:");
-        String exp = calc.nextLine();
+        String input = console.nextLine();
+        try {
+            System.out.println(calc(input));
+        } catch (DifferentNumberSystemsException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String calc(String input) throws DifferentNumberSystemsException {
+
         int actionIndex = -1;
+        int a;
+        int b;
+
         for (int i = 0; i < arithmeticSigns.length; i++) {
-            if (exp.contains(arithmeticSigns[i])) {
+            if (input.contains(arithmeticSigns[i])) {
                 actionIndex = i;
                 break;
             }
@@ -31,12 +44,11 @@ public class Main {
         if (actionIndex == -1) {
             throw new DifferentNumberSystemsException("Cтрока не является математической операцией!");
         }
-        String[] data = exp.split(regexArithmeticSigns[actionIndex]);
+        String[] data = input.split(regexArithmeticSigns[actionIndex]);
         if (data.length != 2) {
             throw new DifferentNumberSystemsException("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
         }
         if (converter.isRoman(data[0]) == converter.isRoman(data[1])) {
-            int a, b;
             boolean isRoman = converter.isRoman(data[0]);
             if (isRoman) {
                 a = converter.romanConverter(data[0]);
@@ -70,6 +82,7 @@ public class Main {
         } else {
             throw new DifferentNumberSystemsException("Используются одновременно разные системы счисления!");
         }
+        return input;
     }
 
     private static int arithmeticExpression(String[] arithmeticSigns, int actionIndex, int a, int b) {
