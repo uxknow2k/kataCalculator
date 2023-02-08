@@ -14,6 +14,11 @@ public class Main {
         String[] regexArithmeticSigns = {"\\+", "-", "/", "\\*"};
 
         Scanner calc = new Scanner(System.in);
+        System.out.println("--------------------------------");
+        System.out.println("Введите выражение форматом \"a + b\" (принимаются только римские (I, II, III...X) и арабские (1,2,3...10).");
+        System.out.println("цифры от 1 до 10 (от I до X), а также операторы \"+\", \"-\", \"*\", \"/\".");
+        System.out.println("Нельзя использовать разные типы чисел в одном выражении.");
+        System.out.println("--------------------------------");
         System.out.println("Введите числовое выражение:");
         String exp = calc.nextLine();
         int actionIndex = -1;
@@ -27,6 +32,9 @@ public class Main {
             throw new DifferentNumberSystemsException("Cтрока не является математической операцией!");
         }
         String[] data = exp.split(regexArithmeticSigns[actionIndex]);
+        if (data.length != 2) {
+            throw new DifferentNumberSystemsException("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
+        }
         if (converter.isRoman(data[0]) == converter.isRoman(data[1])) {
             int a, b;
             boolean isRoman = converter.isRoman(data[0]);
@@ -46,21 +54,30 @@ public class Main {
 /*
 Арифметические действия
  */
-            int result = 0;
-            switch (arithmeticSigns[actionIndex]) {
-                case "+" -> result = a + b;
-                case "-" -> result = a - b;
-                case "*" -> result = a * b;
-                case "/" -> result = a / b;
+            //TODO: Исправить результат
+            if (isRoman) {
+                arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+                if (calcResult > 0) {
+                    System.out.println("Результат: " + converter.arabicConverter(calcResult));
+                } else {
+                    throw new DifferentNumberSystemsException("В римской системе нет отрицательных чисел!");
+                }
             }
+            arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+            System.out.println("Результат: " + calcResult);
 
-            if (isRoman && result > 0) {
-                System.out.println("Результат: " + converter.arabicConverter(result));
-            } else {
-                throw new DifferentNumberSystemsException("Римские числа не могут быть отрицательными!");
-            }
         } else {
             throw new DifferentNumberSystemsException("Используются одновременно разные системы счисления!");
+        }
+    }
+
+    private static void arithmeticExpression(String[] arithmeticSigns, int actionIndex, int a, int b) {
+        int calcResult = 0;
+        switch (arithmeticSigns[actionIndex]) {
+            case "+" -> calcResult = a + b;
+            case "-" -> calcResult = a - b;
+            case "*" -> calcResult = a * b;
+            case "/" -> calcResult = a / b;
         }
     }
 }
