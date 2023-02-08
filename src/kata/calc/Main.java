@@ -12,7 +12,7 @@ public class Main {
     static String[] arithmeticSigns = {"+", "-", "/", "*"};
     static String[] regexArithmeticSigns = {"\\+", "-", "/", "\\*"};
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RuntimeException, DifferentNumberSystemsException {
 
         Scanner console = new Scanner(System.in);
         System.out.println("--------------------------------");
@@ -22,15 +22,11 @@ public class Main {
         System.out.println("--------------------------------");
         System.out.println("Введите числовое выражение:");
         String input = console.nextLine();
-        try {
-            System.out.println(calc(input));
-        } catch (DifferentNumberSystemsException e) {
-            throw new RuntimeException(e);
-        }
+        calc(input);
     }
 
     public static String calc(String input) throws DifferentNumberSystemsException {
-
+        int calcResult = 0;
         int actionIndex = -1;
         int a;
         int b;
@@ -67,7 +63,7 @@ public class Main {
 Арифметические действия
  */
             if (isRoman) {
-                int calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+                calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
                 if (calcResult > 0) {
                     System.out.println("Результат: " + converter.arabicConverter(calcResult));
                 } else {
@@ -75,14 +71,14 @@ public class Main {
                 }
             }
             if (!isRoman) {
-                int calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
+                calcResult = arithmeticExpression(arithmeticSigns, actionIndex, a, b);
                 System.out.println("Результат: " + calcResult);
             }
 
         } else {
             throw new DifferentNumberSystemsException("Используются одновременно разные системы счисления!");
         }
-        return input;
+        return calcResult + "";
     }
 
     private static int arithmeticExpression(String[] arithmeticSigns, int actionIndex, int a, int b) {
@@ -96,5 +92,3 @@ public class Main {
         return calcResult;
     }
 }
-
-
